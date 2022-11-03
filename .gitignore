@@ -1,0 +1,13 @@
+*.log
+
+# Terraform
+.terraform/
+terraform.drift.json
+terraform.tfplan*
+*.tfvars
+*.backup
+
+# IntelliJ
+.idea/
+*.iml
+
