@@ -7,34 +7,53 @@ variable "release_namespace" {
 	description = "Which namespace the release will call home. Used in metadata."
 	type        = string
 }
+variable "release_values" {
+	description = "Rendering context overrides for chart."
+	type        = any
+	default     = {}
+}
 
-variable "chart_data" {
+variable "chart_notes" {
+	description = "Rendered chart notes."
+	type        = string
+	default     = ""
+}
+variable "chart_metadata" {
 	description = "Metadata for the fake chart being recorded."
 	type        = object({
-		metadata = object({
-			name        = string
-			home        = optional(string)
-			sources     = optional(set(string))
-			version     = string # semver
-			description = string
-			keywords    = optional(set(string))
-			maintainers = optional(set(object({
-				name = string
-			})))
-			icon        = optional(string)
-			apiVersion  = optional(string, "v2")
-			appVersion  = optional(string)
-			kubeVersion = optional(string)
-		})
-		lock = string
-		templates = set(object({ # basically source files.
-			name = string # template filename
-			data = string # base64 encoded template content
-		}))
-		values = map(any) # default rendering context.
-		files = set(object({ # source files that aren't templates.
-			name = string # filename
-			data = string # base64 encoded
-		}))
+		name        = string
+		home        = optional(string)
+		sources     = optional(set(string))
+		version     = string # semver
+		description = string
+		keywords    = optional(set(string))
+		maintainers = optional(set(object({
+			name = string
+		})))
+		icon        = optional(string)
+		apiVersion  = optional(string, "v2") # TODO: Update this to v3.
+		appVersion  = optional(string)
+		kubeVersion = optional(string)
 	})
 }
+variable "chart_lock" {
+	description = "I have absolutely no idea what this is for."
+	type        = string
+	default     = ""
+}
+variable "chart_values" {
+	description = "Default rendering context (values.yaml)."
+	type        = any
+	default     = {}
+}
+variable "chart_templates" {
+	description = "The kustomization source files used for rendering."
+	type        = set(string)
+	default     = []
+}
+variable "chart_files" {
+	description = "Source files for the chart that aren't templates."
+	type        = set(string)
+	default     = []
+}
+
